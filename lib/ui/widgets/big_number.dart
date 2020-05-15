@@ -1,6 +1,8 @@
+import 'package:covid19tracker/core/viewmodels/all_viewmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:covid19tracker/core/extensions.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class BigNumber extends StatelessWidget {
   final String label;
@@ -12,6 +14,7 @@ class BigNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<HomeViewModel>(context);
     return Column(
       children: <Widget>[
         Text(
@@ -22,7 +25,7 @@ class BigNumber extends StatelessWidget {
           ),
         ),
         Text(
-          '${number.format}',
+          model.isBusy ? '...' : '${number.format}',
           style: TextStyle(
             color: numberColor,
             fontSize: 42,

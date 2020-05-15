@@ -161,30 +161,29 @@ class CountriesTab extends StatelessWidget {
 class ListSorter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 8),
-      child: DropdownButton<String>(
-        value: dropdownValue,
-        icon: Icon(Icons.arrow_downward),
-        iconSize: 24,
-        elevation: 16,
-        style: TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
+    final model = Provider.of<HomeViewModel>(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16, bottom: 8),
+        child: DropdownButton<String>(
+          icon: Icon(
+              model.isDescending ? Icons.arrow_downward : Icons.arrow_upward),
+          iconSize: 22,
+          value: model.sortValue,
+          elevation: 8,
+          style: TextStyle(fontSize: 18, color: Colors.black.withOpacity(0.7)),
+          underline: Container(),
+          onChanged: (String newValue) => model.sortCountriesBy(newValue),
+          items: model.sortOptions.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Center(child: Text(value)),
+              ),
+            );
+          }).toList(),
         ),
-        onChanged: (String newValue) {
-          setState(() {
-            dropdownValue = newValue;
-          });
-        },
-        items: <String>['One', 'Two', 'Free', 'Four']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
       ),
     );
   }
